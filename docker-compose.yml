@@ -1,0 +1,15 @@
+services:
+  phx-oj:
+    image: phx-oj:Sep2024
+    container_name: cuhkszoj
+    restart: always
+    privileged: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./backup:/backup
+    environment:
+      - PATH=/root/.nix-profile/bin:/usr/local/bin:$PATH
+    command: sh -c "pm2 resurrect && tail -f /dev/null"
+    network_mode: bridge
