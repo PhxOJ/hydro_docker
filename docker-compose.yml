@@ -1,13 +1,17 @@
 services:
   phx-oj:
-    image: phx-oj:latest
-    container_name: phxoj
+    image: phxoj:latest
+    container_name: cuhkszoj
+    shm_size: '4gb'
     restart: always
     privileged: true
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./backup:/backup
+      - ./data:/data
     environment:
       - PATH=/root/.nix-profile/bin:/usr/local/bin:$PATH
-    command: sh -c "pm2 resurrect && tail -f /dev/null"
+    command: sh -c "pm2 resurrect && caddy reload --config /root/.hydro/Caddyfile && tail -f /dev/null"
     network_mode: bridge
